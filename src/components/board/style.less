@@ -1,0 +1,38 @@
+@import "~themes/variables.less";
+
+.board{
+}
+
+.cell{
+  display:inline-block;
+  vertical-align:top;
+  position:relative;
+
+  cursor:pointer;
+  &:hover{
+    opacity:.5;
+  }
+
+  height:100px;
+  padding:3px;
+
+  color: @color-green;
+  border:3px solid white;
+
+  &.active{
+    background-color:@color-blue;
+  }
+
+  >div{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+
+    padding-left:inherit;
+    padding-right:inherit;
+    left:0;
+    right:0;
+
+    text-align:center;
+  }
+}

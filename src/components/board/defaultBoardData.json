@@ -1,0 +1,100 @@
+{
+  "bingoSets":[
+    {
+      "title": "Dog Stuff",
+      "description": "These dogs are awful",
+      "image": "",
+      "cells":[
+        {
+          "text": "stop sign",
+          "description": ""
+        },
+        {
+          "text": "yield sign",
+          "description": ""
+        },
+        {
+          "text": "punchbuggy",
+          "description": ""
+        },
+        {
+          "text": "convertible",
+          "description": ""
+        },
+        {
+          "text": "minivan",
+          "description": ""
+        },
+        {
+          "text": "dump truck",
+          "description": ""
+        },
+        {
+          "text": "wreck",
+          "description": ""
+        },
+        {
+          "text": "police car",
+          "description": ""
+        },
+        {
+          "text": "police bike",
+          "description": ""
+        },
+        {
+          "text": "roadkill",
+          "description": ""
+        },
+        {
+          "text": "hitchiker",
+          "description": ""
+        },
+        {
+          "text": "cow",
+          "description": ""
+        },
+        {
+          "text": "sheep",
+          "description": ""
+        },
+        {
+          "text": "cow",
+          "description": ""
+        },
+        {
+          "text": "goat",
+          "description": ""
+        },
+        {
+          "text": "deer",
+          "description": ""
+        },
+        {
+          "text": "missing license plate",
+          "description": ""
+        },
+        {
+          "text": "pulled over by police",
+          "description": ""
+        },
+        {
+          "text": "truck stop",
+          "description": ""
+        },
+        {
+          "text": "lifted truck",
+          "description": ""
+        },
+        {
+          "text": "bike with sidecar",
+          "description": ""
+        },
+        {
+          "text": "loose gas cap",
+          "description": ""
+        }
+      ]
+    }
+
+  ]
+}
