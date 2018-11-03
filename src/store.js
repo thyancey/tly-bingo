@@ -1,6 +1,8 @@
 import { initStore } from 'react-waterfall';
 import { List, Map } from 'immutable';
 
+import { checkForWin } from 'utils';
+
 //- yanked from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -40,7 +42,7 @@ const store = {
     },
     setBoardSize: ({ boardSize }, newBoardSize) => {
       return {
-        boardSize: newBoardSize
+        boardSize: +newBoardSize
       }
     },
     generateBoard: ({ cells, bingoSetIdx, boardSize }) => {
@@ -56,18 +58,21 @@ const store = {
         if(i === freeIdx){
           tempList.push(new Map({
             active: true,
+            winner: false,
             text: 'FREE',
             description: 'This one is free!'
           }));
         }else if(!randomCells[i]){
           tempList.push(new Map({
             active: true,
+            winner: false,
             text: 'FREE',
             description: 'There wasnt enough data so this one is free!'
           }));
         }else{
           tempList.push(new Map({
             active: false,
+            winner: false,
             text: randomCells[i].text,
             description: randomCells[i].description || randomCells[i].text
           }));
@@ -79,11 +84,31 @@ const store = {
         gameActive: true
       }
     },
-    setCellStatus: ({ cells }, cellIdx, cellStatus) => {
+    setCellStatus: ({ cells, boardSize }, cellIdx, cellStatus) => {
 
-      let updatedCells = cells.update(cellIdx, cell => {
-          return cell.set('active', !cell.get('active'));
+      //- more efficient, but its tough to unclick cells after a win
+      // let updatedCells = cells.update(cellIdx, cell => {
+      //   return cell.set('active', !cell.get('active'));
+      // });
+
+      // - updates every cell every cycle, but allows for play after a win
+      let updatedCells = cells.map((cell, idx) => {
+        let activeVal = cellIdx === idx ? !cell.get('active') : cell.get('active');
+
+        return cell.merge({
+          active: activeVal,
+          winner: false
         });
+      });
+
+      const winningIndicies = checkForWin(updatedCells, boardSize);
+      if(winningIndicies){
+        for(let i = 0; i < winningIndicies.length; i++){
+          updatedCells = updatedCells.update(winningIndicies[i], cell => {
+            return cell.set('winner', true);
+          });
+        }
+      }
 
       return {
         cells:  updatedCells

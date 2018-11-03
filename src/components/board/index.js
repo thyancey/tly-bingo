@@ -20,6 +20,7 @@ class Board extends Component {
     return cells.map((cell, idx) => {
       let className = 'cell';
       if(cell.get('active')) className += ' active';
+      if(cell.get('winner')) className += ' winner';
 
       return (
         <div className={className} key={idx} style={{ width: cellWidth }} onClick={e => this.onCellClick(idx)} title={cell.get('description')}>
