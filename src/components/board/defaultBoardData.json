@@ -4,6 +4,11 @@
       "title": "Dog Stuff",
       "description": "These dogs are awful",
       "image": "",
+      "legends":{
+        "3": "BIN",
+        "5": "BINGO",
+        "7": "!BINGO!"
+      },
       "cells":[
         {
           "text": "stop sign",

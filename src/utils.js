@@ -119,3 +119,21 @@ export function checkWin_diagonalUp(cellList, gridSize){
 export function getCellIndexFromRowsAndCols(rowIdx, colIdx, gridSize){
   return (rowIdx * gridSize) + colIdx;
 }
+
+
+export function getRowIdxFromCellIdx(cellIdx, gridSize){
+  return Math.floor(cellIdx / gridSize);
+}
+
+export function getColIdxFromCellIdx(cellIdx, gridSize){
+  return cellIdx % gridSize;
+}
+
+export function getDefaultLegend(boardSize){
+  switch(boardSize){
+    case 3: return ['B', 'I', 'N'];
+    case 5: return ['B', 'I', 'N', 'G', 'O'];
+    case 7: return ['B', 'I', 'N', 'G', 'O', 'O', '!'];
+    default: return [];
+  }
+}

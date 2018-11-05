@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { List } from 'immutable';
 
 import { connect } from 'src/store';
+import { getRowIdxFromCellIdx, getColIdxFromCellIdx } from 'src/utils';
 
-import Cell from './cell';
+import Cell from './cell/';
+import LegendItem from './legend/legend-item';
+
 require('./style.less');
 
 const ANIM_DELAY = 50;
@@ -15,9 +18,8 @@ class Board extends Component {
     super();
     
     this.state = {
-      
-      curWinGroup: -1,
-      // anim_curIdx: -1,
+      anim_activeRows: new List(),
+      anim_activeCols: new List(),
       anim_activeCells: new List(),
       anim_count: 0
     }
@@ -33,6 +35,8 @@ class Board extends Component {
   startAnimationLoop(){
     this.killAnimationLoop();
     this.setState({
+      anim_activeCols: new List(),
+      anim_activeRows: new List(),
       anim_activeCells: new List(),
       anim_count: 0
     });
@@ -45,8 +49,15 @@ class Board extends Component {
 
   onAnimationLoop(){
     if(this.state.anim_count < this.props.winCells.size){
+      const curIdx = this.props.winCells.get(this.state.anim_count);
+      // console.log(getColIdxFromCellIdx(curIdx, this.props.boardSize), getRowIdxFromCellIdx(curIdx, this.props.boardSize));
+
+      let activeRow = getRowIdxFromCellIdx(curIdx, this.props.boardSize);
+      let activeCol = getColIdxFromCellIdx(curIdx, this.props.boardSize);
       this.setState({
-        anim_activeCells: this.state.anim_activeCells.push(this.props.winCells.get(this.state.anim_count)),
+        anim_activeRows: this.state.anim_activeRows.indexOf(activeRow) === -1 ? this.state.anim_activeRows.push(activeRow) : this.state.anim_activeRows,
+        anim_activeCols: this.state.anim_activeCols.indexOf(activeCol) === -1 ? this.state.anim_activeCols.push(activeCol) : this.state.anim_activeCols,
+        anim_activeCells: this.state.anim_activeCells.push(curIdx),
         anim_count: this.state.anim_count + 1
       })
     }else{
@@ -69,8 +80,7 @@ class Board extends Component {
     this.props.actions.setCellStatus(cellIdx, 'active');
   }
 
-  renderCells(cells, boardSize){
-    const cellWidth = Math.floor((100 / boardSize) * 100) / 100 + '%';
+  renderCells(cells, cellWidth){
 
     return cells.map((cell, idx) => 
       <Cell 
@@ -83,10 +93,31 @@ class Board extends Component {
     );
   }
 
+  renderLegendItems(legendList, type, cellSize, activeItems){
+    return legendList.map((item, idx) => (
+      <LegendItem 
+        key={idx}
+        type={type} 
+        cellSize={cellSize}
+        text={item}
+        isWinner={activeItems.indexOf(idx) > -1} />
+    ));
+  }
+
   render() {
+    const cellWidth = Math.floor((100 / this.props.boardSize) * 100) / 100 + '%';
+
     return (
       <div className="board">
-        {this.renderCells(this.props.cells, this.props.boardSize)}
+        <div className="board-top">
+          {this.renderLegendItems(this.props.legend, 'top', cellWidth, this.state.anim_activeCols)}
+        </div>
+        <div className="board-side">
+          {this.renderLegendItems(this.props.legend, 'side', cellWidth, this.state.anim_activeRows)}
+        </div>
+        <div className="board-cells" >
+          {this.renderCells(this.props.cells, cellWidth)}
+        </div>
       </div>
     );
   }
@@ -96,5 +127,6 @@ export default connect(state => ({
   cells: state.cells,
   boardSize: state.boardSize,
   winGroups: state.winGroups,
-  winCells: state.winCells
+  winCells: state.winCells,
+  legend: state.boardData.get('legend')
 }))(Board);

@@ -1,7 +1,7 @@
 import { initStore } from 'react-waterfall';
 import { List, Map } from 'immutable';
 
-import { checkForWin, checkForWinGroups } from 'utils';
+import { checkForWin, checkForWinGroups, getDefaultLegend } from 'utils';
 
 //- yanked from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 function shuffleArray(array) {
@@ -18,14 +18,17 @@ const store = {
   initialState: {
     dataLoaded:false,
     bingoSetIdx: -1,
+    boardData: new Map({
+      legend: new List()
+    }),
     boardSize: 5,
     gameActive: false,
     winCells: List([]),
-    winGroups: List([]),
+    winGroups: List([]), // - each set of bingo wins, might not be needed soon
     cells: List([])
   },
   actions: {
-    setBingoData: ({ dataLoaded, bingoSetIdx }, bingoData) => {
+    setBingoData: ({}, bingoData) => {
       global.tlyBingoData = [];
       for(let i = 0; i < bingoData.bingoSets.length; i++){
         global.tlyBingoData.push(bingoData.bingoSets[i]);
@@ -36,18 +39,21 @@ const store = {
         bingoSetIdx: (global.tlyBingoData.length) > 0 ? 0 : -1
       }
     },
-    endGame: ({ gameActive }) => {
+    endGame: ({}) => {
       return {
         cells: List([]),
-        gameActive: false
+        gameActive: false,
+        boardData: new Map({
+          legend: new List()
+        })
       }
     },
-    setBoardSize: ({ boardSize }, newBoardSize) => {
+    setBoardSize: ({}, newBoardSize) => {
       return {
         boardSize: +newBoardSize
       }
     },
-    generateBoard: ({ cells, bingoSetIdx, boardSize }) => {
+    generateBoard: ({ bingoSetIdx, boardSize }) => {
       let tempList = [];
 
       let bingoSet = global.tlyBingoData[bingoSetIdx];
@@ -81,17 +87,17 @@ const store = {
         }
       }
 
+      const foundLegend = bingoSet.legends && bingoSet.legends[boardSize] || getDefaultLegend(boardSize);
+
       return{
         cells: List(tempList),
-        gameActive: true
+        gameActive: true,
+        boardData: new Map({
+          legend: new List(foundLegend)
+        })
       }
     },
     setCellStatus: ({ cells, winGroups, winCells, boardSize }, cellIdx, cellStatus) => {
-
-      //- more efficient, but its tough to unclick cells after a win
-      // let updatedCells = cells.update(cellIdx, cell => {
-      //   return cell.set('active', !cell.get('active'));
-      // });
 
       // - updates every cell every cycle, but allows for play after a win
       let updatedCells = cells.map((cell, idx) => {
@@ -99,10 +105,8 @@ const store = {
 
         return cell.merge({
           active: activeVal
-          // winner: false
         });
       });
-
 
       const newWinGroups = checkForWinGroups(updatedCells, boardSize);
       const newWinCells = [];
@@ -112,8 +116,6 @@ const store = {
         }
       }
 
-
-      // console.log('winCells: ', winCells);
       return {
         cells:  updatedCells,
         winCells: (newWinCells.length !== winCells.size) ? new List(newWinCells) : winCells,
