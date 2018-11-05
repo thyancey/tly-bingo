@@ -43,6 +43,8 @@ const store = {
       return {
         cells: List([]),
         gameActive: false,
+        winCells: List([]),
+        winGroups: List([]),
         boardData: new Map({
           legend: new List()
         })

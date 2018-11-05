@@ -16,7 +16,7 @@ class LegendItem extends Component {
         height: this.props.type === 'side' && this.props.cellSize ? this.props.cellSize: null
        }}>
         <div className='legend-item-body'>
-          <h3>{this.props.text}</h3>
+          <p>{this.props.text}</p>
         </div>
       </div>
     );

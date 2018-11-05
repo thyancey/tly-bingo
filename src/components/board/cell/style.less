@@ -5,6 +5,12 @@
   vertical-align:top;
   position:relative;
   cursor:pointer;
+  border: 3px dashed @color-greyer;
+  margin:-1px;
+
+  p{
+    font-size:2.2rem;
+  }
 
   &:hover{
     .cell-bg{
@@ -39,6 +45,14 @@
 
       text-align:center;
     }
+
+
+    .cell-body{
+      width: @cell-body-width;
+      padding-left:10px;
+      padding-right:10px;
+      margin: 0 auto;
+    }
   }
 
   .cell-bg{
@@ -48,12 +62,9 @@
     box-shadow: 1px 1px 3px @color-black;
   }
 
-  .cell-body{
-    width: @cell-body-width;
-    margin: 0 auto;
-  }
-
   &.active{
+    color:@color-white;
+    
     .cell-bg{
       background-color:@color-blue;
       width:@cell-body-width;
@@ -67,6 +78,8 @@
   }
 
   &.winner{
+
+    color: @color-purple;
     .cell-bg{
       background-color:@color-yellow;
       width:100%;

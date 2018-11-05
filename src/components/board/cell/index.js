@@ -16,7 +16,7 @@ class Cell extends Component {
         <div className='cell-container'>
           <div className='cell-bg' />
           <div className='cell-body'>
-            <h3>{this.props.cellData.get('text')}</h3>
+            <p>{this.props.cellData.get('text').toUpperCase()}</p>
           </div>
         </div>
       </div>

@@ -5,12 +5,42 @@
 @color-purple:#870099;
 
 @color-grey:#2e2d33;
+@color-greyer:#111111;
 @color-black:#000000;
+@color-white:#ffffff;
 
 @font-style-body: 'arial';
 @font-style-heading: 'arial';
 
 
-@legend-size: 40px;
+@legend-size: 5rem;
 @cell-body-width: 90%;
-@header-height:75px;
+@header-height:100px;
+
+@import (css) url('https://fonts.googleapis.com/css?family=Patrick+Hand|Sigmar+One|Fredoka+One');
+// @font-style-body: 'Patrick Hand', cursive;
+@font-style-header: 'Sigmar One', cursive;
+@font-style-body: 'Fredoka One', cursive;
+
+
+
+.mixin-text-stroke(@stroke-thickness, @stroke-spread, @stroke-color){
+
+  text-shadow: -@stroke-thickness -@stroke-thickness @stroke-spread @stroke-color,
+                @stroke-thickness -@stroke-thickness @stroke-spread @stroke-color,
+               -@stroke-thickness @stroke-thickness @stroke-spread @stroke-color,
+                @stroke-thickness @stroke-thickness @stroke-spread @stroke-color,
+                -@stroke-thickness -@stroke-thickness @stroke-spread @stroke-color,
+                @stroke-thickness -@stroke-thickness @stroke-spread @stroke-color,
+               -@stroke-thickness @stroke-thickness @stroke-spread @stroke-color,
+                @stroke-thickness @stroke-thickness @stroke-spread @stroke-color,
+                -@stroke-thickness -@stroke-thickness @stroke-spread @stroke-color,
+                @stroke-thickness -@stroke-thickness @stroke-spread @stroke-color,
+               -@stroke-thickness @stroke-thickness @stroke-spread @stroke-color,
+                @stroke-thickness @stroke-thickness @stroke-spread @stroke-color,
+                -@stroke-thickness -@stroke-thickness @stroke-spread @stroke-color,
+                @stroke-thickness -@stroke-thickness @stroke-spread @stroke-color,
+               -@stroke-thickness @stroke-thickness @stroke-spread @stroke-color,
+                @stroke-thickness @stroke-thickness @stroke-spread @stroke-color;
+
+}

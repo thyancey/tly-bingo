@@ -22,8 +22,24 @@
   left:0;
   top:0;
   width:100%;
+  height:100px;
 
-  height:@header-height;
+  h1{
+    font-size:5rem;
+    color:@color-grey;
+    .mixin-text-stroke(2px,1px,@color-blue);
+
+    text-align:center;
+  }
+  .buttons{
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    margin: 0 auto;
+    text-align:center;
+    z-index:1;
+  }
 }
 
 #body{
