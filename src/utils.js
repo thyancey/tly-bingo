@@ -28,6 +28,33 @@ export function checkForWin(cellList, gridSize){
   return null;
 }
 
+export function checkForWinGroups(cellList, gridSize){
+  let winGroups = [];
+  let winningCells = null;
+
+  //- check top left to bottom right bingos
+  winningCells = checkWin_diagonalDown(cellList, gridSize);
+  if(winningCells) winGroups.push(winningCells);
+
+  //- check bottom left to top right bingos
+  winningCells = checkWin_diagonalUp(cellList, gridSize);
+  if(winningCells) winGroups.push(winningCells);
+
+  //- check left to right bingos
+  for(let r = 0; r < gridSize; r++){
+    winningCells = checkWin_row(r, cellList, gridSize);
+    if(winningCells) winGroups.push(winningCells);
+  }
+
+  //- check top to bottom bingos
+  for(let c = 0; c < gridSize; c++){
+    winningCells = checkWin_column(c, cellList, gridSize);
+    if(winningCells) winGroups.push(winningCells);
+  }
+
+  return winGroups;
+}
+
 
 export function checkWin_row(rowIdx, cellList, gridSize){
   let retList = [];

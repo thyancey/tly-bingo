@@ -1,7 +1,7 @@
 import { initStore } from 'react-waterfall';
 import { List, Map } from 'immutable';
 
-import { checkForWin } from 'utils';
+import { checkForWin, checkForWinGroups } from 'utils';
 
 //- yanked from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 function shuffleArray(array) {
@@ -20,6 +20,8 @@ const store = {
     bingoSetIdx: -1,
     boardSize: 5,
     gameActive: false,
+    winCells: List([]),
+    winGroups: List([]),
     cells: List([])
   },
   actions: {
@@ -84,7 +86,7 @@ const store = {
         gameActive: true
       }
     },
-    setCellStatus: ({ cells, boardSize }, cellIdx, cellStatus) => {
+    setCellStatus: ({ cells, winGroups, winCells, boardSize }, cellIdx, cellStatus) => {
 
       //- more efficient, but its tough to unclick cells after a win
       // let updatedCells = cells.update(cellIdx, cell => {
@@ -96,22 +98,26 @@ const store = {
         let activeVal = cellIdx === idx ? !cell.get('active') : cell.get('active');
 
         return cell.merge({
-          active: activeVal,
-          winner: false
+          active: activeVal
+          // winner: false
         });
       });
 
-      const winningIndicies = checkForWin(updatedCells, boardSize);
-      if(winningIndicies){
-        for(let i = 0; i < winningIndicies.length; i++){
-          updatedCells = updatedCells.update(winningIndicies[i], cell => {
-            return cell.set('winner', true);
-          });
+
+      const newWinGroups = checkForWinGroups(updatedCells, boardSize);
+      const newWinCells = [];
+      for(let i = 0; i < newWinGroups.length; i++){
+        for(let j = 0; j < newWinGroups[i].length; j++){
+          newWinCells.push(newWinGroups[i][j]);
         }
       }
 
+
+      // console.log('winCells: ', winCells);
       return {
-        cells:  updatedCells
+        cells:  updatedCells,
+        winCells: (newWinCells.length !== winCells.size) ? new List(newWinCells) : winCells,
+        winGroups: (newWinGroups.length !== winGroups.size) ? new List(newWinGroups) : winGroups
       }
     }
   }
