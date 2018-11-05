@@ -3,35 +3,31 @@ import { List, Map } from 'immutable';
 export function checkForWin(cellList, gridSize){
   let winningCells = null;
 
+  //- check top left to bottom right bingos
+  winningCells = checkWin_diagonalDown(cellList, gridSize);
+  if(winningCells) return winningCells;
+
+  //- check bottom left to top right bingos
+  winningCells = checkWin_diagonalUp(cellList, gridSize);
+  if(winningCells) return winningCells;
+
+  //- check left to right bingos
   for(let r = 0; r < gridSize; r++){
-    for(let c = 0; c < gridSize; c++){
-      if(c === 0){
-        if(r === 0){
-          //- check top left to bottom right
-          winningCells = checkWin_diagonalDown(cellList, gridSize);
-          if(winningCells) return winningCells;
-        }else if(r === gridSize - 1){
-          //- check bottom left to top right
-          winningCells = checkWin_diagonalUp(cellList, gridSize);
-          if(winningCells) return winningCells;
-        }
-      }
-
-      if(c === 0){
-        //- check row
-        winningCells = checkWin_row(r, cellList, gridSize);
-        if(winningCells) return winningCells;
-      }
-
-      //- check column
-      winningCells = checkWin_column(c, cellList, gridSize);
-      if(winningCells) return winningCells;
-    }
+    winningCells = checkWin_row(r, cellList, gridSize);
+    if(winningCells) return winningCells;
   }
+
+  //- check top to bottom bingos
+  for(let c = 0; c < gridSize; c++){
+    winningCells = checkWin_column(c, cellList, gridSize);
+    if(winningCells) return winningCells;
+  }
+
 
   //- no win
   return null;
 }
+
 
 export function checkWin_row(rowIdx, cellList, gridSize){
   let retList = [];
