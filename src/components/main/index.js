@@ -7,6 +7,7 @@ import Board from 'src/components/board';
 import defaultBoardData from 'src/components/board/defaultBoardData.json';
 
 import Button from 'src/components/reusable/button';
+import Menu from 'src/components/menu';
 
 require('./style.less');
 
@@ -15,6 +16,9 @@ class Main extends Component {
     super();
 
     this.loadStoreData();
+    this.state = {
+      menuOpen: false
+    };
   }
 
   loadStoreData(){
@@ -52,12 +56,11 @@ class Main extends Component {
     this.props.actions.generateBoard(3);
   }
 
-  onSizeChange(event){
-    this.props.actions.setBoardSize(event.target.value);
-  }
 
   onMenuButton(){
-
+    this.setState({
+      menuOpen: !this.state.menuOpen
+    });
   }
 
   renderButtons(gameActive, boardSize){
@@ -65,11 +68,6 @@ class Main extends Component {
       return (
         <div className="buttons">
           <Button onClick={e => this.onNewGameButton()}>{'+ New Game'}</Button>
-            <select value={boardSize} onChange={e => this.onSizeChange(e)}>
-            <option value={3}>{'3x3'}</option>
-            <option value={5}>{'5x5'}</option>
-            <option value={7}>{'7x7'}</option>
-          </select>
         </div>
       );
     }else {
@@ -87,7 +85,7 @@ class Main extends Component {
       <div>
         <section id="header">
           <div className="menubutton">
-            <Button onClick={e => this.onEndGameButton()}><Icon_Menu /></Button>
+            <Button onClick={e => this.onMenuButton()}><Icon_Menu /></Button>
           </div>
           <div className="logo">
             <h1>{'Bingotown'}</h1>
@@ -97,6 +95,7 @@ class Main extends Component {
         <section id="body">
           <Board/>
         </section>
+        <Menu isOpen={this.state.menuOpen} />
         <section id="footer">
 
         </section>

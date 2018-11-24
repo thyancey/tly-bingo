@@ -1,0 +1,60 @@
+@import "~themes/variables.less";
+
+.menu{
+  background-color:@color-grey;
+  box-shadow:@shadow-z3;
+
+  h1{
+    color:@color-grey;
+    .mixin-text-stroke(2px,1px,@color-green);
+  }
+
+  position:absolute;
+  width:40rem;
+  max-width:50%;
+  height:100%;
+  left:-100%;
+
+  padding:2rem;
+  padding-top:@header-height + 1rem;
+
+  transition:left .5s ease-in;
+
+  &.menu-active{
+    left:0;
+    transition:left .3s ease-out;
+  }
+
+  .menu-group{
+    font-size:3rem;
+
+    color:@color-white;
+    &:not(:last-child){
+      border-bottom: .25rem solid @color-black;
+    }
+    padding:1rem;
+    .menu-group-label{
+      display:inline-block;
+    }
+    select{
+      cursor:pointer;
+      font-size:3rem;
+      font-family: @font-style-body;
+      color:@color-grey;
+
+      display:inline-block;
+      margin-left:2rem;
+      background-color:@color-blue;
+      border:none;
+      padding:.5rem 1rem;
+      border-radius:1rem;
+
+      &:focus{
+        outline:none;
+      }
+      &:hover{
+        background-color:@color-green;
+      }
+    }
+  }
+}
