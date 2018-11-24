@@ -93,3 +93,25 @@
 
 
 }
+
+
+@media only screen and (max-width: @breakpoint-tablet-max) {
+  .cell{
+    .cell-container{
+      .cell-body{
+        padding:0;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: @breakpoint-mobile-max) {
+  .cell{
+    .cell-container{
+      .cell-body{
+        padding:0;
+        width:100%;
+      }
+    }
+  }
+}

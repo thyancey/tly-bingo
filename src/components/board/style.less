@@ -6,7 +6,6 @@
 
   .board-top{
     height:@legend-size;
-    // border:5px solid red;
     margin-left:@legend-size;
 
     .legend-item{
@@ -20,14 +19,24 @@
     vertical-align:top;
     width:@legend-size;
     height:~"calc(100% - @{legend-size})";
-    // border:5px solid green;
 
   }
   .board-cells{
     display:inline-block;
     width:~"calc(100% - @{legend-size})";
     height:~"calc(100% - @{legend-size})";
-    // border:5px solid purple;
   }
 
+}
+
+@media only screen and (max-width: @breakpoint-mobile-max) {
+  .board{
+    .board-side{
+      display:none;
+    }
+    .board-cells{
+      width:100%;
+      margin-left:2px;
+    }
+  }
 }

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import Icon_Example from '../../images/icon.svg';
+import Icon_Menu from '../../images/icon-menu.svg';
 
 import { connect } from 'src/store';
 
 import Board from 'src/components/board';
 import defaultBoardData from 'src/components/board/defaultBoardData.json';
+
+import Button from 'src/components/reusable/button';
 
 require('./style.less');
 
@@ -42,6 +44,7 @@ class Main extends Component {
   }
 
   onEndGameButton(){
+    console.log("on End gam")
     this.props.actions.endGame();
   }
 
@@ -53,22 +56,26 @@ class Main extends Component {
     this.props.actions.setBoardSize(event.target.value);
   }
 
+  onMenuButton(){
+
+  }
+
   renderButtons(gameActive, boardSize){
-    if(gameActive){
+    if(!gameActive){
       return (
         <div className="buttons">
-          <button onClick={e => this.onEndGameButton()}>{'End Game'}</button>
-        </div>
-      );
-    }else{
-      return (
-        <div className="buttons">
-          <button onClick={e => this.onNewGameButton()}>{'New Game'}</button>
-          <select value={boardSize} onChange={e => this.onSizeChange(e)}>
+          <Button onClick={e => this.onNewGameButton()}>{'+ New Game'}</Button>
+            <select value={boardSize} onChange={e => this.onSizeChange(e)}>
             <option value={3}>{'3x3'}</option>
             <option value={5}>{'5x5'}</option>
             <option value={7}>{'7x7'}</option>
           </select>
+        </div>
+      );
+    }else {
+      return (
+        <div className="buttons">
+          <Button onClick={e => this.onEndGameButton()}>{'End Game'}</Button>
         </div>
       );
     }
@@ -79,7 +86,12 @@ class Main extends Component {
     return (
       <div>
         <section id="header">
-          <h1>{'Bingotown'}</h1>
+          <div className="menubutton">
+            <Button onClick={e => this.onEndGameButton()}><Icon_Menu /></Button>
+          </div>
+          <div className="logo">
+            <h1>{'Bingotown'}</h1>
+          </div>
           {this.props.dataLoaded && this.renderButtons(this.props.gameActive, this.props.boardSize)}
         </section>
         <section id="body">

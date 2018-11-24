@@ -6,6 +6,7 @@ import { getRowIdxFromCellIdx, getColIdxFromCellIdx } from 'src/utils';
 
 import Cell from './cell/';
 import LegendItem from './legend/legend-item';
+import Button from 'src/components/reusable/button';
 
 require('./style.less');
 
@@ -106,6 +107,7 @@ class Board extends Component {
 
   render() {
     const cellWidth = Math.floor((100 / this.props.boardSize) * 100) / 100 + '%';
+    const compensatedCellWidth = `calc(${cellWidth} + 1px)`; //- accounts for margins
 
     return (
       <div className="board">
@@ -116,7 +118,7 @@ class Board extends Component {
           {this.renderLegendItems(this.props.legend, 'side', cellWidth, this.state.anim_activeRows)}
         </div>
         <div className="board-cells" >
-          {this.renderCells(this.props.cells, cellWidth)}
+          {this.renderCells(this.props.cells, compensatedCellWidth)}
         </div>
       </div>
     );
