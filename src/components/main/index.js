@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Icon_Menu from '../../images/icon-menu.svg';
 
 import { connect } from 'src/store';
 
@@ -7,7 +6,7 @@ import Board from 'src/components/board';
 import defaultBoardData from 'src/components/board/defaultBoardData.json';
 
 import Button from 'src/components/reusable/button';
-import Menu from 'src/components/menu';
+import Modal from 'src/components/modal';
 
 require('./style.less');
 
@@ -17,7 +16,7 @@ class Main extends Component {
 
     this.loadStoreData();
     this.state = {
-      menuOpen: false
+      modalOpen: false
     };
   }
 
@@ -43,23 +42,20 @@ class Main extends Component {
   }
 
   setDefaultData(){
-    console.log('set defaultData')
     this.props.actions.setBingoData(defaultBoardData);
   }
 
   onEndGameButton(){
-    console.log("on End gam")
     this.props.actions.endGame();
   }
 
   onNewGameButton(){
-    this.props.actions.generateBoard(3);
+    this.setModal(true);
   }
 
-
-  onMenuButton(){
+  setModal(modalState){
     this.setState({
-      menuOpen: !this.state.menuOpen
+      modalOpen: modalState
     });
   }
 
@@ -79,14 +75,10 @@ class Main extends Component {
     }
   }
 
-
   render() {
     return (
       <div>
         <section id="header">
-          <div className="menubutton">
-            <Button onClick={e => this.onMenuButton()}><Icon_Menu /></Button>
-          </div>
           <div className="logo">
             <h1>{'Bingotown'}</h1>
           </div>
@@ -95,10 +87,10 @@ class Main extends Component {
         <section id="body">
           <Board/>
         </section>
-        <Menu isOpen={this.state.menuOpen} />
         <section id="footer">
 
         </section>
+        <Modal isOpen={this.state.modalOpen} onCloseModal={() => this.setModal(false)} />
       </div>
     );
   }

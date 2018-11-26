@@ -1,8 +1,8 @@
 {
   "bingoSets":[
     {
-      "title": "Dog Stuff",
-      "description": "These dogs are awful",
+      "title": "BINGO",
+      "description": "An Example Board",
       "image": "",
       "legends":{
         "3": "BIN",
@@ -96,6 +96,54 @@
         },
         {
           "text": "loose gas cap",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "title": "Lil' Bingo",
+      "description": "A smaller data set with only 9 entries",
+      "image": "",
+      "legends":{
+        "3": "SML",
+        "5": "SMALL",
+        "7": "TINYBOY"
+      },
+      "cells":[
+        {
+          "text": "stop sign",
+          "description": ""
+        },
+        {
+          "text": "yield sign",
+          "description": ""
+        },
+        {
+          "text": "punchbuggy",
+          "description": ""
+        },
+        {
+          "text": "convertible",
+          "description": ""
+        },
+        {
+          "text": "minivan",
+          "description": ""
+        },
+        {
+          "text": "dump truck",
+          "description": ""
+        },
+        {
+          "text": "wreck",
+          "description": ""
+        },
+        {
+          "text": "police car",
+          "description": ""
+        },
+        {
+          "text": "police bike",
           "description": ""
         }
       ]

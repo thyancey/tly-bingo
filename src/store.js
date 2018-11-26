@@ -17,7 +17,8 @@ function shuffleArray(array) {
 const store = {
   initialState: {
     dataLoaded:false,
-    bingoSetIdx: -1,
+    bingoDataIdx: -1,
+    bingoGlossary: new List(),
     boardData: new Map({
       legend: new List()
     }),
@@ -29,14 +30,42 @@ const store = {
   },
   actions: {
     setBingoData: ({}, bingoData) => {
+      const glossaryData = [];
       global.tlyBingoData = [];
       for(let i = 0; i < bingoData.bingoSets.length; i++){
-        global.tlyBingoData.push(bingoData.bingoSets[i]);
+        const bingoSet = bingoData.bingoSets[i];
+
+        global.tlyBingoData.push(bingoSet);
+
+        glossaryData.push(new Map({
+          title: bingoSet.title,
+          description: bingoSet.description,
+          image: bingoSet.image,
+          gridSizes: new List([
+            new Map({
+              gridSize: '3',
+              title: '3x3',
+              available: !!(bingoSet.legends['3'] && bingoSet.cells.length >= 9)
+            }),
+            new Map({
+              gridSize: '5',
+              title: '5x5',
+              available: !!(bingoSet.legends['5'] && bingoSet.cells.length >= 25)
+            }),
+            new Map({
+              gridSize: '7',
+              title: '7x7',
+              available: !!(bingoSet.legends['7'] && bingoSet.cells.length >= 49)
+            })
+          ]),
+          author: bingoSet.author || 'unknown'
+        }));
       }
 
       return {
         dataLoaded: true,
-        bingoSetIdx: (global.tlyBingoData.length) > 0 ? 0 : -1
+        bingoDataIdx: (global.tlyBingoData.length) > 0 ? 0 : -1,
+        bingoGlossary: new List(glossaryData)
       }
     },
     endGame: ({}) => {
@@ -50,15 +79,39 @@ const store = {
         })
       }
     },
+    setBingoDataIdx: ({bingoGlossary}, bingoDataIdx) => {
+      const glossaryData = bingoGlossary.get(bingoDataIdx);
+      let defaultBoardSize = -1;
+
+      if(glossaryData){
+        try{
+          defaultBoardSize = +glossaryData.get('gridSizes').get(0).get('gridSize');
+        }catch(e){
+          console.error('problem getting default boardSize', e);
+        }
+      }
+
+      if(defaultBoardSize > -1){
+        return {
+          bingoDataIdx: bingoDataIdx,
+          boardSize: defaultBoardSize
+        }
+      }else{
+        console.error('problem setting bingoData from setBingoDataIdx');
+        return {
+          bingoDataIdx: -1,
+        }
+      }
+    },
     setBoardSize: ({}, newBoardSize) => {
       return {
         boardSize: +newBoardSize
       }
     },
-    generateBoard: ({ bingoSetIdx, boardSize }) => {
+    generateBoard: ({ bingoDataIdx, boardSize }) => {
       let tempList = [];
 
-      let bingoSet = global.tlyBingoData[bingoSetIdx];
+      let bingoSet = global.tlyBingoData[bingoDataIdx];
       let randomCells = shuffleArray(bingoSet.cells);
 
       const totalCells = boardSize * boardSize;
