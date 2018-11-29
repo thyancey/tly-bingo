@@ -1,8 +1,6 @@
 @import "~themes/variables.less";
 
 .button{
-  position:relative;
-  display:inline-block;
 
   svg{
     vertical-align:middle;
@@ -12,25 +10,4 @@
     font-size:2rem;
   }
 
-  cursor:pointer;
-
-  .button-body{
-    color:@color-grey;
-
-    border-radius:1rem;
-    padding:1rem 2rem;
-
-    background-color:@color-blue;
-    transition: background-color .2s ease-in-out, 
-                box-shadow .2s ease-in-out,
-                margin-top .2s ease-in-out;
-    &:hover{
-      background-color:@color-green;
-      box-shadow:@shadow-z2;
-      margin-top:-.1rem;
-      transition: background-color .1s ease-in-out, 
-                  box-shadow .1s ease-in-out,
-                  margin-top .1s ease-in;
-    }
-  }
 }
